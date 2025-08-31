@@ -1,4 +1,16 @@
-local cascade = (function() 
+--!nolint
+--!nocheck
+--!optimize 2
+
+--[[
+    @author biggaboy212
+    @name Cascade
+    @description A Luau UI library based on macOS Sequoia.
+    @license MIT License
+
+    This file was automatically generated with darklua, it is not intended for manual editing.
+--]]
+
 local a a={cache={},load=function(b)if not a.cache[b]then a.cache[b]={c=a[b]()}
 end return a.cache[b].c end}do function a.a()local b={}b.Clone=function(c)local
 d if type(c)=='function'then d=clonefunction and clonefunction(c)elseif typeof(c
@@ -3657,4 +3669,3 @@ x,y in pairs(w)do if typeof(y)=='table'and typeof(v[x])=='table'and not y.Value
 then u(v[x],y)elseif v[x]and y and y.Value~=nil then v[x].Value=y.Value end end
 end u(p.Theme,t)end},r,{'Theme'})t.Structures={WindowPill=s}for u,v in pairs(i)
 do t[u]=v end e.Apply(p,t)task.defer(e.Apply,p,t)return t end return l
-end)()
