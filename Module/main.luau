@@ -1,11 +1,11 @@
 local Module = (function(a, b)
 	local _ENV = a
-	
+
 	_ENV.__Break = true
 
 	local Configs = {}
 	local Serialized = {}
-	
+
 	local Connections = _ENV.Connections or {} do
 		_ENV.Connections = Connections
 
@@ -15,7 +15,7 @@ local Module = (function(a, b)
 
 		table.clear(Connections)
 	end
-	
+
 	local Running = _ENV.Running or {} do
 		_ENV.Running = Running
 
@@ -25,7 +25,7 @@ local Module = (function(a, b)
 
 		table.clear(Running)
 	end
-	
+
 	local RunningOption = {}
 	local SignalOption = {}
 	local Nets = {}
@@ -55,7 +55,7 @@ local Module = (function(a, b)
 
 		return self
 	end)()
-	
+
 	local RunService = Serialized.Utility:reference('RunService')
 	local Lighting = Serialized.Utility:reference('Lighting')
 	local TeleportService = Serialized.Utility:reference('TeleportService')
@@ -78,7 +78,7 @@ local Module = (function(a, b)
 			until tick() - Tick >= (interval or 0.1)
 		end
 	end
-	
+
 	function Serialized:NewConnection(Signal, Action)
 		table.insert(SignalOption, {
 			Signal = Signal,
@@ -87,12 +87,12 @@ local Module = (function(a, b)
 			end
 		})
 	end
-	
+
 	Serialized:NewConnection(b.Idled, function()
 		VirtualUser:CaptureController()
 		VirtualUser:ClickButton2(Vector2.new())
 	end)
-	
+
 	function Serialized:NewRunning(Function)
 		table.insert(RunningOption, {
 			Function = Function or function()
@@ -100,7 +100,7 @@ local Module = (function(a, b)
 			end
 		})
 	end
-	
+
 	function Serialized:CreateThread(Setting, _Delay, Call)
 		Nets[Setting] = function(Value)
 			self:NewThread(Value, _Delay or 0.1, Call, function()
@@ -154,13 +154,13 @@ local Module = (function(a, b)
 
 	Serialized.Thread = (function()
 		local self = {}
-		
+
 		function self:Running()
 			for _, v in pairs(RunningOption) do
 				table.insert(Running, task.spawn(function()
 					while task.wait(self.Smoothing and 0.25 or 0) do
 						if _ENV.__Break then break end
-						
+
 						v.Function()
 					end
 				end))
@@ -180,11 +180,11 @@ local Module = (function(a, b)
 
 		return self
 	end)()
-	
+
 
 	Serialized.Components = (function()
 		local self = {}
-		
+
 		local function GetSize()
 			if UserInputService.KeyboardEnabled then
 				return UDim2.new(0, 800, 0, 550)
@@ -201,21 +201,21 @@ local Module = (function(a, b)
 				Keybind = Enum.KeyCode.LeftShift,
 			})
 		end
-		
+
 		function self:Tabs(Window, Title, Icon)
 			return Window:Add({
 				Title = Title,
 				Icon = Icon
 			})
 		end
-		
+
 		function self:PageTitle(Tabs, Title, Desc)
 			return Tabs:PageTitle({
 				Title = Title,
 				Desc = Desc
 			})
 		end
-		
+
 		function self:Button(Section, Title, Desc, Call, DisbleLine)
 			return Section:Button({
 				Title = Title,
@@ -224,7 +224,7 @@ local Module = (function(a, b)
 				DisbleLine = DisbleLine,
 			})
 		end
-		
+
 		function self:Toggle(Section, Title, Desc, Setting, Call, DisbleLine)
 			local Thread = nil
 
@@ -255,7 +255,7 @@ local Module = (function(a, b)
 				end,
 			})
 		end
-		
+
 		function self:Slider(Section, Title, Desc, Setting, Min, Max, Rounding, Call, DisbleLine)
 			return Section:Slider({
 				Title = Title,
@@ -268,14 +268,14 @@ local Module = (function(a, b)
 				Call = function(v)
 					Configs[Setting] = v
 					Serialized.Configs:Save(Setting, v)
-					
+
 					if Call then
 						Call(v)
 					end
 				end,
 			})
 		end
-		
+
 		function self:Textfield(Section, Title, Desc, Setting, Call, DisbleLine)
 			return Section:Textfield({
 				Title = Title,
@@ -293,7 +293,7 @@ local Module = (function(a, b)
 				end,
 			})
 		end
-		
+
 		function self:Enum(Section, Title, Desc, Enums, Call, DisbleLine)
 			return Section:Enum({
 				Title = Title,
@@ -304,10 +304,10 @@ local Module = (function(a, b)
 				Call = Call,
 			})
 		end
-		
+
 		function self:List(Section, Title, Setting, List, Call, DisbleLine)
 			return Section:List({
-				Title = Section,
+				Title = Title,
 				List = List,
 				Value = Configs[Setting],
 				DisbleLine = DisbleLine,
@@ -321,7 +321,7 @@ local Module = (function(a, b)
 				end,
 			})
 		end
-		
+
 		function self:OnLeaving(Window)
 			local PlaceId = game.PlaceId
 
@@ -371,31 +371,31 @@ local Module = (function(a, b)
 
 				return selfs
 			end)()
-			
+
 			local Misc = self:Tabs(Window, "Miscellaneous", 125928820284709) do
 				self:PageTitle(Misc, "Configuration", "Configuration Manager") do
 					local _1 = Misc.new()
-					
+
 					Window:SetEnum(Enum.KeyCode.LeftControl)
 					self:Enum(_1, "Keybind", "Set keybind to [ on/off ] Window(UI)", Enum.KeyCode.LeftShift, function(key, value)
 						Window:SetEnum(key)
 					end)
-					
+
 					self:Button(_1, "Remove Workspace", "Remove your current save configs files.", function()
 						pcall(delfile, "XZER")
 					end, true)
 				end
-				
+
 				self:PageTitle(Misc, "Performance", "Performance Controller") do
 					local _1 = Misc.new()
-					
+
 					self:Toggle(_1, "White Screen", "Enabled white screen to stop render and boost performance", "White Screen", function(v)
 						RunService:Set3dRenderingEnabled(if v then false else true)
 					end)
-					
+
 					self:Button(_1, "Low Graphic Quality", "Enable low graphics to improve performance.", function()
 						print('Boosted')
-						
+
 						local Terrain = workspace:FindFirstChildOfClass('Terrain') do
 							Terrain.WaterWaveSize = 0
 							Terrain.WaterWaveSpeed = 0
@@ -421,34 +421,34 @@ local Module = (function(a, b)
 						end
 					end, true)
 				end
-				
+
 				self:PageTitle(Misc, "Server", "Server Controller") do
 					local _1 = Misc.new()
-					
+
 					Serialized.Configs.def('JobId', "N/A")
-					
+
 					self:Textfield(_1, "JobId", "Paste jobId here", "JobId")
-					
+
 					self:Button(_1, "Join", "Join the server using the JobId provided.", function()
 						Utils:Join(Configs['JobId'])
 					end)
-					
+
 					self:Button(_1, "Rejoin", "Reconnect to your current server.", function()
 						Utils:Rejoin()
 					end)
-					
+
 					self:Button(_1, "Clipboard JobId", tostring(game.JobId), function()
 						setclipboard(tostring(game.JobId))
 					end)
-					
+
 					self:Button(_1, "Change Server", "Find a new one to join.", function()
 						Utils:Server()
 					end, true)
 				end
 			end
-			
+
 			Serialized.Thread:init()
-			
+
 			return Misc
 		end
 
