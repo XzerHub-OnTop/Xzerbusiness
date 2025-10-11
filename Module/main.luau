@@ -260,7 +260,7 @@ local Module = (function(a, b)
 			return Section:Slider({
 				Title = Title,
 				Desc = Desc,
-				Value = Configs[Section],
+				Value = Configs[Setting],
 				Min = Min,
 				Max = Max,
 				Rounding = Rounding,
