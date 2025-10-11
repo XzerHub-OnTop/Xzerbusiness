@@ -310,7 +310,7 @@ function Library:Row(Parent, Title, Desc, Size)
 	Text_1.Position = UDim2.new(0.00121151912, 0,0, 0)
 	Text_1.Size = UDim2.new(1, 0,1, 0)
 
-	Title_1.Changed:Connect(function()
+	Title_1:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
 		Title_1.Size = UDim2.new(Sizes, 0,0, Title_1.TextBounds.Y)
 	end)
 
@@ -337,7 +337,7 @@ function Library:Row(Parent, Title, Desc, Size)
 
 	local Desc_1 = Desc and Instance.new('TextLabel') or nil do
 		if Desc then
-			Desc_1.Changed:Connect(function()
+			Desc_1:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
 				Desc_1.Size = UDim2.new(Sizes, 0,0, Desc_1.TextBounds.Y)
 			end)
 
@@ -488,7 +488,7 @@ function Library.new(params)
 	Size_1.Position = UDim2.new(1, 0,1, 0)
 	Size_1.Size = UDim2.new(0, 40,0, 40)
 	Size_1.ZIndex = -99
-	
+
 	local Toggle = Instance.new("ImageLabel") do
 		local Input_1 = Instance.new("TextButton")
 		Toggle.Name = "Toggle"
@@ -1107,7 +1107,7 @@ function Library.new(params)
 			end
 		end
 	end)
-	
+
 	SearchBox_1.Focused:Connect(function()
 		SearchBox_1.TextTruncate = Enum.TextTruncate.None
 		for _, page in pairs(PageFolder:GetChildren()) do
@@ -1718,7 +1718,7 @@ function Library.new(params)
 				local UICorner_4 = Instance.new("UICorner")
 				local UIPadding_1 = Instance.new("UIPadding")
 				local Slide = Library:Button(Side)
-				
+
 				Side.Name = "Side"
 				Side.Parent = Raw
 				Side.BackgroundColor3 = Color3.fromRGB(255,255,255)
@@ -1875,7 +1875,7 @@ function Library.new(params)
 					end
 				end)
 			end
-			
+
 			function Element:List(new)
 				local Title = new.Title or "Dropdown"
 				local List = new.List or {}
@@ -2328,97 +2328,90 @@ function Library.new(params)
 
 				return itemslist
 			end
-			
-			function Element:Enum(new)
-				local Title = new.Title or "Unknow"
-				local Desc = new.Desc
-				local Key = new.Key or Enum.KeyCode.Q
-				local Value = new.Value or false
-				local Callback = new.Call or function() end
-				
+
+			function Element:Enum(options)
+				local Title      = options.Title or "Unknown"
+				local Desc       = options.Desc
+				local Key        = options.Key or Enum.KeyCode.Q
+				local Value      = options.Value or false
+				local Callback   = options.Call or function() end
+				local DisableLine= options.DisableLine or false
+
 				local Raw = Library:Row(Section, Title, Desc)
-				local Line = (not new.DisbleLine and self:Line()) or nil
-				
+				local Line = (not DisableLine) and self:Line() or nil
+
 				local Side = Instance.new("Frame")
-				local Changed_1 = Instance.new("Frame")
-				local UICorner_1 = Instance.new("UICorner")
-				local UIStroke_1 = Instance.new("UIStroke")
-				local Enum_1 = Instance.new("TextLabel")
-				local Click_1 = Library:Button(Changed_1)
+				local Changed = Instance.new("Frame")
+				local Corner = Instance.new("UICorner")
+				local Stroke = Instance.new("UIStroke")
+				local Label = Instance.new("TextLabel")
+				local Button = Library:Button(Changed)
 
 				Side.Name = "Side"
 				Side.Parent = Raw
-				Side.BackgroundColor3 = Color3.fromRGB(255,255,255)
 				Side.BackgroundTransparency = 1
-				Side.BorderColor3 = Color3.fromRGB(0,0,0)
-				Side.BorderSizePixel = 0
-				Side.Size = UDim2.new(1, 0,1, 0)
+				Side.Size = UDim2.fromScale(1, 1)
 
-				Changed_1.Name = "Changed"
-				Changed_1.Parent = Side
-				Changed_1.AnchorPoint = Vector2.new(1, 0.5)
-				Changed_1.BackgroundColor3 = Color3.fromRGB(50,50,50)
-				Changed_1.BorderColor3 = Color3.fromRGB(0,0,0)
-				Changed_1.BorderSizePixel = 0
-				Changed_1.Position = UDim2.new(1, 0,0.5, 0)
-				Changed_1.Size = UDim2.new(0, 25,0, 20)
+				Changed.Name = "Changed"
+				Changed.Parent = Side
+				Changed.AnchorPoint = Vector2.new(1, 0.5)
+				Changed.Position = UDim2.new(1, 0, 0.5, 0)
+				Changed.Size = UDim2.new(0, 25, 0, 20)
+				Changed.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 
-				UICorner_1.Parent = Changed_1
-				UICorner_1.CornerRadius = UDim.new(0,4)
+				Corner.CornerRadius = UDim.new(0, 4)
+				Corner.Parent = Changed
 
-				UIStroke_1.Parent = Changed_1
-				UIStroke_1.Color = Color3.fromRGB(75,75,75)
-				UIStroke_1.Thickness = 1
+				Stroke.Thickness = 1
+				Stroke.Color = Color3.fromRGB(75, 75, 75)
+				Stroke.Parent = Changed
 
-				Enum_1.Name = "Enum"
-				Enum_1.Parent = Changed_1
-				Enum_1.AnchorPoint = Vector2.new(0.5, 0.5)
-				Enum_1.BackgroundColor3 = Color3.fromRGB(255,255,255)
-				Enum_1.BackgroundTransparency = 1
-				Enum_1.BorderColor3 = Color3.fromRGB(0,0,0)
-				Enum_1.BorderSizePixel = 0
-				Enum_1.Position = UDim2.new(0.5, 0,0.5, 0)
-				Enum_1.Size = UDim2.new(0.800000012, 0,0.800000012, 0)
-				Enum_1.Font = Enum.Font.GothamSemibold
-				Enum_1.Text = 'N/A'
-				Enum_1.TextColor3 = Color3.fromRGB(255,255,255)
-				Enum_1.TextSize = 12
-				Enum_1.TextTransparency = 0.5
-				
-				local function adjustBoxBindSize()
-					Changed_1.Size = UDim2.new(0, Enum_1.TextBounds.X + 10, 0, 20)
+				Label.Name = "Enum"
+				Label.Parent = Changed
+				Label.AnchorPoint = Vector2.new(0.5, 0.5)
+				Label.Position = UDim2.fromScale(0.5, 0.5)
+				Label.Size = UDim2.fromScale(0.8, 0.8)
+				Label.BackgroundTransparency = 1
+				Label.Font = Enum.Font.GothamSemibold
+				Label.Text = tostring(Key):gsub("Enum.KeyCode.", "")
+				Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+				Label.TextSize = 12
+				Label.TextTransparency = 0.5
+
+				local function resizeBox()
+					Changed.Size = UDim2.new(0, math.max(Label.TextBounds.X + 10, 25), 0, 20)
 				end
 
-				adjustBoxBindSize()
+				resizeBox()
 
 				local function changeKey()
-					Enum_1.Text = "..."
-					local inputConnection
+					Label.Text = "..."
+					resizeBox()
 
-					inputConnection = UserInputService.InputBegan:Connect(function(input)
+					local connection
+					connection = UserInputService.InputBegan:Connect(function(input)
 						if input.UserInputType == Enum.UserInputType.Keyboard then
 							Key = input.KeyCode
-							Enum_1.Text = tostring(Key):gsub("Enum.KeyCode.", "")
-							adjustBoxBindSize()
-							inputConnection:Disconnect()
+							Label.Text = tostring(Key):gsub("Enum.KeyCode.", "")
+							resizeBox()
+							connection:Disconnect()
 							Callback(Key, Value)
 						end
 					end)
 				end
 
-				UserInputService.InputEnded:Connect(function(input, gameProcessed)
+				UserInputService.InputEnded:Connect(function(input)
 					if input.KeyCode == Key then
 						Value = not Value
 						Callback(Key, Value)
 					end
 				end)
 
-				delay(0, function()
+				task.defer(function()
 					Callback(Key, Value)
-					changeKey()
 				end)
 
-				Click_1.MouseButton1Click:Connect(changeKey)
+				Button.MouseButton1Click:Connect(changeKey)
 			end
 
 			return Element
@@ -2445,7 +2438,7 @@ function Library.new(params)
 			UIListLayout_1z.Padding = UDim.new(0,1)
 			UIListLayout_1z.SortOrder = Enum.SortOrder.LayoutOrder
 
-			Title_1.Changed:Connect(function()
+			Title_1:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
 				Title_1.Size = UDim2.new(1, 0,0, Title_1.TextBounds.Y)
 			end)
 
@@ -2467,7 +2460,7 @@ function Library.new(params)
 
 			local Desc_1 = Desc and Instance.new("TextLabel") or nil do
 				if Desc then
-					Desc_1.Changed:Connect(function()
+					Desc_1:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
 						Desc_1.Size = UDim2.new(1, 0,0, Desc_1.TextBounds.Y)
 					end)
 
@@ -2501,7 +2494,7 @@ function Library.new(params)
 
 		return Section
 	end
-	
+
 	function Tab:SetEnum(a)
 		Keybind = a
 	end
