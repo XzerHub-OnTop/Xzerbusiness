@@ -943,6 +943,7 @@ function Library.new(params)
 	Icon_1q.LayoutOrder = -1
 	Icon_1q.Size = UDim2.new(0, 20,0, 20)
 	Icon_1q.Image = ""
+	Icon_1q.ImageTransparency = 0.5
 
 	UIListLayout_2.Parent = Window_1
 	UIListLayout_2.Padding = UDim.new(0,10)
