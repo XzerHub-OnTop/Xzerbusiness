@@ -493,13 +493,13 @@ function Library.new(params)
 		local Input_1 = Instance.new("TextButton")
 		Toggle.Name = "Toggle"
 		Toggle.Parent = Xzer
-		Toggle.AnchorPoint = Vector2.new(0.5, 0)
+		Toggle.AnchorPoint = Vector2.new(1, 0.5)
 		Toggle.BackgroundColor3 = Color3.fromRGB(255,255,255)
 		Toggle.BackgroundTransparency = 1
 		Toggle.BorderColor3 = Color3.fromRGB(0,0,0)
 		Toggle.BorderSizePixel = 0
-		Toggle.Position = UDim2.new(0.5, 0,0, 10)
-		Toggle.Size = UDim2.new(0, 200,0, 7)
+		Toggle.Position = UDim2.new(0.015, 0,0.5, 0)
+		Toggle.Size = UDim2.new(0, 7,0, 200)
 		Toggle.Image = "rbxassetid://80999662900595"
 		Toggle.ImageTransparency = 0.699999988079071
 		Toggle.ScaleType = Enum.ScaleType.Slice
