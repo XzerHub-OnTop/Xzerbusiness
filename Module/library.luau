@@ -310,7 +310,7 @@ function Library:Row(Parent, Title, Desc, Size)
 	Text_1.Position = UDim2.new(0.00121151912, 0,0, 0)
 	Text_1.Size = UDim2.new(1, 0,1, 0)
 
-	Title_1:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
+	Title_1:GetPropertyChangedSignal('TextBounds'):Connect(function()
 		Title_1.Size = UDim2.new(Sizes, 0,0, Title_1.TextBounds.Y)
 	end)
 
@@ -337,7 +337,7 @@ function Library:Row(Parent, Title, Desc, Size)
 
 	local Desc_1 = Desc and Instance.new('TextLabel') or nil do
 		if Desc then
-			Desc_1:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
+			Desc_1:GetPropertyChangedSignal('TextBounds'):Connect(function()
 				Desc_1.Size = UDim2.new(Sizes, 0,0, Desc_1.TextBounds.Y)
 			end)
 
@@ -2439,7 +2439,7 @@ function Library.new(params)
 			UIListLayout_1z.Padding = UDim.new(0,1)
 			UIListLayout_1z.SortOrder = Enum.SortOrder.LayoutOrder
 
-			Title_1:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
+			Title_1:GetPropertyChangedSignal('TextBounds'):Connect(function()
 				Title_1.Size = UDim2.new(1, 0,0, Title_1.TextBounds.Y)
 			end)
 
@@ -2461,7 +2461,7 @@ function Library.new(params)
 
 			local Desc_1 = Desc and Instance.new("TextLabel") or nil do
 				if Desc then
-					Desc_1:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
+					Desc_1:GetPropertyChangedSignal('TextBounds'):Connect(function()
 						Desc_1.Size = UDim2.new(1, 0,0, Desc_1.TextBounds.Y)
 					end)
 
