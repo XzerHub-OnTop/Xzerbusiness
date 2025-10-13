@@ -582,14 +582,14 @@ function Library.new(params)
 	end)
 
 	if Library.IsMobile then
-		local MinSize = Vector2.new(430, 285)
+		local MinSize = Vector2.new(430, 315)
 		local MaxSize = Vector2.new(500, 350)
 
 		local UIScale = Instance.new("UIScale")
-		UIScale.Scale = 1.2
+		UIScale.Scale = 1.075
 		UIScale.Parent = Xzer
 
-		Main_1.Size = UDim2.new(0, 430, 0, 285)
+		Main_1.Size = UDim2.new(0, 450, 0, 315)
 
 		self:Resize(Size_1, Main_1, MinSize, MaxSize, 2)
 	else
@@ -1760,6 +1760,7 @@ function Library.new(params)
 				TextBox_1.TextColor3 = Color3.fromRGB(178,178,178)
 				TextBox_1.TextSize = 10
 				TextBox_1.TextTruncate = Enum.TextTruncate.AtEnd
+				TextBox_1.ZIndex = Slide.ZIndex + 1
 
 				SliderFrame_1.Name = "SliderFrame"
 				SliderFrame_1.Parent = Side
@@ -1959,7 +1960,6 @@ function Library.new(params)
 				ScrollingFrame_1.BorderSizePixel = 0
 				ScrollingFrame_1.Position = UDim2.new(0.5, 0,0.441818178, 0)
 				ScrollingFrame_1.Size = UDim2.new(1, 0,0.883636355, 0)
-				ScrollingFrame_1.ZIndex = 20
 				ScrollingFrame_1.ClipsDescendants = true
 				ScrollingFrame_1.AutomaticCanvasSize = Enum.AutomaticSize.None
 				ScrollingFrame_1.BottomImage = "rbxasset://textures/ui/Scroll/scroll-bottom.png"
@@ -2428,6 +2428,7 @@ function Library.new(params)
 
 			PageTitle.Name = "PageTitle"
 			PageTitle.Parent = Scrolling_1
+			PageTitle.AutomaticSize = Enum.AutomaticSize.Y
 			PageTitle.BackgroundColor3 = Color3.fromRGB(255,255,255)
 			PageTitle.BackgroundTransparency = 1
 			PageTitle.BorderColor3 = Color3.fromRGB(0,0,0)
@@ -2436,7 +2437,6 @@ function Library.new(params)
 			PageTitle.Size = UDim2.new(1, 0,0, 25)
 
 			UIListLayout_1z.Parent = PageTitle
-			UIListLayout_1z.Padding = UDim.new(0,1)
 			UIListLayout_1z.SortOrder = Enum.SortOrder.LayoutOrder
 
 			Title_1:GetPropertyChangedSignal('TextBounds'):Connect(function()
@@ -2483,14 +2483,6 @@ function Library.new(params)
 					Desc_1.RichText = true
 				end
 			end
-
-			UIListLayout_1z:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-				PageTitle.Size = UDim2.new(1, 0, 0, UIListLayout_1z.AbsoluteContentSize.Y + 5)
-			end)
-
-			task.delay(0.1, function()
-				PageTitle.Size = UDim2.new(1, 0, 0, UIListLayout_1z.AbsoluteContentSize.Y + 5)
-			end)
 		end
 
 		return Section
